@@ -18,16 +18,13 @@ public class Main {
 
         // Isso funciona como se fosse um dict de python {chave: valor}, nesse caso (chave, valor)
         // Preferi trabalhar com String, String porque depois dá pra concatenar e não será necessário converter
-        HashMap<String, String> codifica_fita = new HashMap<>();
-        codifica_fita.put("$", "0");
-        // Resto Iterável
+        HashMap<String, String> codifica_fita = new HashMap<>(); // Iterável
 
         HashMap<String, String> codifica_direcao = new HashMap<>();
         codifica_direcao.put("D", "1");
         codifica_direcao.put("E", "11");
 
-        HashMap<String, String> codifica_estado = new HashMap<>();
-        // Iterável
+        HashMap<String, String> codifica_estado = new HashMap<>(); // Iterável
 
         Scanner sc = new Scanner(System.in);
 
@@ -61,8 +58,13 @@ public class Main {
         dois_alfabetos.addAll(list_alfabeto_sigma);
 
         for (int i = 0; i < tamanho_alfabetos; i++) {
-            codifica_fita.put(dois_alfabetos.get(i), concat2);
-            concat2 += concat2;
+            if (dois_alfabetos.get(i).equals("$")) {
+                codifica_fita.put(dois_alfabetos.get(i), "0");
+            }
+            else {
+                codifica_fita.put(dois_alfabetos.get(i), concat2);
+                concat2 += concat2;
+            }
         }
 
         System.out.println("Estado inicial:");
