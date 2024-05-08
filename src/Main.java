@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        String concat = "1";
         int int_user_input = 0;
         int int_user_input2 = 0;
         int int_user_input3 = 0;
@@ -15,15 +16,15 @@ public class Main {
         // Isso funciona como se fosse um dict de python {chave: valor}, nesse caso (chave, valor)
         // Preferi trabalhar com String, String porque depois dá pra concatenar e não será necessário converter
         HashMap<String, String> codifica_fita = new HashMap<>();
-        HashMap<String, String> codifica_direcao = new HashMap<>();
-        HashMap<String, String> codifica_estado = new HashMap<>();
-
         codifica_fita.put("$", "0");
-        codifica_fita.put("0", "11");
-        codifica_fita.put("1", "111");
+        // Resto Iterável
 
+        HashMap<String, String> codifica_direcao = new HashMap<>();
         codifica_direcao.put("D", "1");
         codifica_direcao.put("E", "11");
+
+        HashMap<String, String> codifica_estado = new HashMap<>();
+        // Iterável
 
         Scanner sc = new Scanner(System.in);
 
@@ -33,8 +34,12 @@ public class Main {
         System.out.println("Número de Estados:");
         String user_input = sc.nextLine();
         int_user_input = Integer.parseInt(user_input);
+        // chave valor (estado, codificação):
         for (int i = 1; i <= int_user_input; i++) {
             lista_estados.add(i);
+            String string_i = String.valueOf(i);
+            codifica_estado.put(string_i, concat);
+            concat = concat + string_i;
         }
 
         System.out.println("Alfabeto Σ: ('a' até 'z', separados por espaço)");
@@ -65,7 +70,7 @@ public class Main {
             lista_transicoes.add(transicoes);
         }
 
-        // Saída:
+        // TODO Saída:
 
     }
 }
