@@ -37,7 +37,7 @@ string getCode(ifstream& arquivo, string simbolo){                  //Recebe um 
     //Primeiro, vamos checar se é um símbolo de entrada
     jumpLinha(arquivo, 1);
     getline(arquivo, linha);
-    for(int i = 0; i < linha.length(); i++){    //Iteramos por todos os caracteres da linha
+    for(unsigned long long i = 0; i < linha.length(); i++){    //Iteramos por todos os caracteres da linha
         if(linha[i] != ' '){
             contador++;
             if(linha[i] == simbolo[0]){         //Encontramos o caractere!
@@ -48,7 +48,7 @@ string getCode(ifstream& arquivo, string simbolo){                  //Recebe um 
 
     //Depois, vamos checar se é um símbolo de fita
     getline(arquivo, linha);
-    for(int i = 0; i < linha.length(); i++){    //Iteramos por todos os caracteres da linha
+    for(unsigned long long i = 0; i < linha.length(); i++){    //Iteramos por todos os caracteres da linha
         if(linha[i] != ' ' && linha[i] != '$'){
             contador++;
             if(linha[i] == simbolo[0]){         //Encontramos o caractere!
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
     string linha, saida;    //Linha = Linhas lidas do input     Saida = output final do programa
 
     while(getline(arquivo, linha)){ //Vamos lendo cada linha do arquivo
-        cout << endl << "linha " << nLinhas << " = " << linha;
+        //cout << endl << "linha " << nLinhas << " = " << linha;
         nLinhas++;
     }
 
@@ -107,16 +107,19 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
     //Input Linha 1 - Inteiro 1 <= Q <= 20; indica o n° de estados da máquina
     getline(arquivo, linha);            
     int Q = stoi(linha);
+    //cout << "\n Q do stoi: " << Q;
+
     if(Q > 20 || Q < 1){                //Tratamento de dados
         cout << endl << "Valor invalido na linha 1! Q é inteira, tal que: {1 <= Q <= 20}" << endl;
+        exit(1);
     }
 
     //Output 1: * Q linhas representando cada estado, em unário
     for(i = 1; i <= Q; i++){ 
         saida += dec_para_unario(i);    //Convertemos cada estado Q para um número unário, e escrevemos na saída
-        saida += "\n";
+        saida += '\n';
     }
-    cout << endl << "SAIDA EH " << endl << saida << endl;
+    //cout << endl << "SAIDA EH " << endl << saida << endl;
 
 
 
@@ -128,6 +131,7 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
             tamanhoAlfabeto++;
         }
     }
+
     getline(arquivo, linha);
     for(unsigned long long lint = 0; lint < linha.length(); lint++){    //For linha 3
         if(linha[lint] != ' '){ //Se for um caractere, e nao um espaço em branco...
@@ -138,14 +142,14 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
     //Output 2: * |Σ|+|Γ|linhas conterão a representação de cada um dos símbolos de Σ e Γ;
     for(i = 1; i <= tamanhoAlfabeto; i++){ 
         saida += dec_para_unario(i);    //Convertemos cada estado Q para um número unário, e escrevemos na saída
-        saida += "\n";
+        saida += '\n';
     }
-    cout << endl << "SAIDA 2 EH " << endl << saida << endl;
+    //cout << endl << "SAIDA 2 EH " << endl << saida << endl;
 
 
     //Output 3: * 2 linhas para as direções, a primeira sendo “Direita” e a segunda sendo “Esquerda”;;
-    saida = saida + '1' + "\n" + "11" + "\n";
-    cout << endl << "SAIDA 3 EH " << endl << saida << endl;
+    saida = saida + '1' + '\n' + "11" + '\n';
+    //cout << endl << "SAIDA 3 EH " << endl << saida << endl;
 
 
     //Input Linha 6 - n° de transições da MT.
@@ -153,7 +157,7 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
     jumpLinha(arquivo, 5); //LEMBRETE - Devemos pular para a linha 5, pois o getline vai ler a linha seguinte.
     getline(arquivo, linha);
     int nTransicoes = stoi(linha);
-    cout << endl << "Possuimos " << nTransicoes << " transicoes." << endl;
+    //cout << endl << "Possuimos " << nTransicoes << " transicoes." << endl;
 
 
     //Output 4: * t linhas que representarão cada uma das transições;
@@ -169,18 +173,19 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
     for(i = 6; i < (nTransicoes + 6); i++){
         jumpLinha(arquivo, i);
         getline(arquivo, linha);
-        cout << endl << "Linha inicial: - " << linha << endl;
+        //cout << endl << "Linha inicial: - " << linha << endl;
         //Leitura do EA (Estado Atual)
             //Os estados vão de 1 a 20, e a sua representação unária é equivalente ao seu número. Logo, só precisamos pegar o nome do estado e converter ele para unário.
+
 
         // EA  -  Estado Anterior
         pos = linha.find(" ");
         aux = linha.substr(0, pos);     //Pegamos o EA e colocamos ele na substring aux
         linha.erase(0, pos + 1);            //Apagamos o EA da string original (o +1 serve para apagar o espaço também)
-
-        cout << endl << "EA - " << aux << endl;
-        cout << "Linha - " << linha;
         saida += dec_para_unario(stoi(aux));//Colocamos o código unário do EA na saida
+
+        //cout << endl << "EA - " << aux << endl;
+        //cout << "Linha - " << linha;
 
 
         saida += '0';                       //E um 0 para separar
@@ -197,18 +202,15 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
 
 
 
-
-
-
-
-
-
-
         saida += '0';
         // PE  -  Próximo Estado
         pos = linha.find(" ");
         aux = linha.substr(0, pos);     //Pegamos o PE e colocamos ele na substring aux
         linha.erase(0, pos + 1);            //Apagamos o PE da string original
+        saida += dec_para_unario(stoi(aux));//Colocamos o código unário do PE na saida
+
+
+
 
 
         saida += '0';
@@ -216,20 +218,92 @@ int main(int argc, char* argv[]){ //Argc = n° de parametros + nome do arquivo .
         pos = linha.find(" ");
         aux = linha.substr(0, pos);     //Pegamos o SE e colocamos ele na substring aux
         linha.erase(0, pos + 1);            //Apagamos o SE da string original
+        if(aux == "$"){                 //Caso especial para garantir que $ seja representado como "1".
+            saida += '1';
+        }else{
+            saida += getCode(arquivo, aux); //Obtemos o código de SL, e inserimos na saída
+        }
+
+
 
 
         saida += '0';
         // Dir  -  Direção
         //Na string linha só sobrou a direção
+        if(linha[0] == 'D'){
+            saida += '1';
+        }else{
+            saida += "11";
+        }
 
 
 
-
-        saida += "\n";
+        saida += '\n';
     }
 
-        cout << endl << "SAIDA" << endl << saida;
 
+    //Output 5: * 1 linha que conterá os estados finais (se mais de um estado final, deve estar separado porum 0 (zero));
+    //Input Linha 5 - de 1 a Q inteiros, indicando os estados finais da MT
+    jumpLinha(arquivo, 4); 
+    getline(arquivo, linha);    //Pulamos para a linha 4, para assim ler a linha 5.
+
+    while(linha.length() != 0){
+        //cout << endl << "uaile";
+        pos = linha.find(" ");
+        //cout << endl << "Pos eh " << pos << ".";
+
+        if(pos == -1){  //Chegamos ao ultimo estado escrito
+            saida += dec_para_unario(stoi(linha));
+            linha.erase(0); // apagamos a string, terminamos o loop
+        }else{
+            aux = linha.substr(0, pos);     //Pegamos o número do estado e colocamos ele na substring aux
+            linha.erase(0, pos + 1);        //Apagamos o estado da string original (o +1 serve para apagar o espaço também)
+            saida += dec_para_unario(stoi(aux));//Colocamos o código unário do estado na saida
+            saida += '0';
+        }
+    }
+
+
+    //Output 6: * A última linha conterá representação R〈M〉 final, conforme visto em sala.
+    //  R〈M〉= EstadosFinais (output 5) + 00 + Transições separadas por '00'
+    pos = saida.find_last_of('\n');         //Obtemos a posição da última linha da saida (que é onde está o conjunto de estados iniciais)
+    saida += '\n';
+    saida += saida.substr(pos + 1);
+    saida.pop_back();   //Remove o '\n' que tem no final da substring acima
+
+    //cout << "\nAQUI PO S EH " << pos << endl;
+    //Agora, vamos só colocar as transições na saída, separadas por 00.
+    
+    for(i = 0; i < nTransicoes; i++){
+        pos = saida.find_last_of('\n', pos - 1);      //Loop para chegar à posição aonde está a codificação da primeira transição
+    }
+
+    int auxPos = pos;
+
+    for(i = 0; i < nTransicoes; i++){
+        //cout << "\n loop, i - %i" << i << " | pos - " << pos << " |";
+
+        auxPos = pos;
+        pos = saida.find_first_of('\n', pos + 1);
+
+        aux = saida.substr(auxPos + 1, pos - auxPos);
+        aux.pop_back();
+
+        saida += aux;
+        saida += "00";
+    }
+
+    saida.pop_back();
+    saida.pop_back();
+    //cout << "\nSAIDA - " << saida << "\npos - " << pos << endl;
+    //cout << endl << "Dai a partir da ultima pos fica - " << endl << saida.substr(pos);
+
+
+    //saida += "00";
+    //aux = saida.substr(pos3, saida.length() - pos2);
+    //aux.pop_back();
+    //saida += aux;
+    cout << endl << "SAIDA___FINAL" << endl << saida;
 
 
 
