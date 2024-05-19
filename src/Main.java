@@ -175,7 +175,7 @@ public class Main {
             finalRepresentation.setLength(finalRepresentation.length() - 2);
         }
 
-        System.out.println(finalRepresentation);
+        System.out.print(finalRepresentation);
 
         sc.close(); // Fechando o scanner
     }
