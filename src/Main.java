@@ -1,15 +1,15 @@
 import java.util.*;
 
 public class Main {
-    // regex para tratar as inserções:
+    // Regex para tratar as inserções:
     public static boolean valida_alfabeto_sigma(String input) {
-        return input.matches("^[a-z0-9 ]+$");
+        return input.matches("^[a-z0-9 ]*$");
     }
 
     public static boolean valida_alfabeto_gama(String input) {
-        return input.matches("^[A-Z$ ]+$");
+        return input.matches("^[A-Z$ ]*$");
     }
-    
+
     public static void main(String[] args) {
         // Inicialização do scanner
         Scanner sc = new Scanner(System.in);
@@ -31,7 +31,7 @@ public class Main {
         List<String> list_alfabeto_sigma = new ArrayList<>();
         List<String> list_alfabeto_gama = new ArrayList<>();
 
-        // HasMaps (Análogos a dicts de python {chave : valor}
+        // HashMaps (Análogos a dicts de python {chave : valor})
         HashMap<String, String> codifica_fita = new HashMap<>();
         HashMap<String, String> codifica_simbolos_fita = new HashMap<>();
         HashMap<String, String> codifica_direcao = new HashMap<>();
@@ -42,30 +42,29 @@ public class Main {
         codifica_direcao.put("D", "1");
         codifica_direcao.put("E", "11");
 
-        // Entrada 1 - Númerdo de estados
+        // Entrada 1 - Número de estados
         String input_numero_estados = sc.nextLine();
         numero_estados = Integer.parseInt(input_numero_estados);
 
-        if(numero_estados >= 1 && numero_estados <= 20){
+        if (numero_estados >= 1 && numero_estados <= 20) {
             for (int i = 1; i <= numero_estados; i++) {
                 String string_i = String.valueOf(i);
                 codifica_estado.put(string_i, concat);
                 concat += "1";
             }
-        }else{
+        } else {
             System.out.println("Número de estados fora do intervalo permitido (1-20). Encerrando o programa.");
             System.exit(1);
         }
 
-        // Entrada 2 - Aldabeto Σ
+        // Entrada 2 - Alfabeto Σ
         String input_alfabeto_sigma = sc.nextLine();
         String[] alfabeto_sigma = input_alfabeto_sigma.split(" ");
         list_alfabeto_sigma.addAll(Arrays.asList(alfabeto_sigma));
         if (!valida_alfabeto_sigma(input_alfabeto_sigma)) {
             System.out.println("Caracteres não permitidos. Encerrando o programa.");
             System.exit(1);
-        }
-        else{
+        } else {
             tamanho_alfabeto_sigma = list_alfabeto_sigma.size();
         }
 
@@ -76,7 +75,7 @@ public class Main {
         if (!valida_alfabeto_gama(input_alfabeto_gama)) {
             System.out.println("Caracteres não permitidos. Encerrando o programa.");
             System.exit(1);
-        }else {
+        } else {
             tamanho_alfabeto_gama = list_alfabeto_gama.size();
         }
 
@@ -109,8 +108,7 @@ public class Main {
         if (int_estados_finais < 1 || int_estados_finais > numero_estados) {
             System.out.println("Estado(s) final(is) fora do intervalo Q. Encerrando o programa.");
             System.exit(1);
-        }
-        else{
+        } else {
             for (String estado : estados_finais) {
                 codifica_estados_finais.put(estado, concat);
             }
